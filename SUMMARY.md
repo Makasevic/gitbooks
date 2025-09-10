@@ -32,7 +32,3 @@
 * [Custom objective e custom metric](parte-5/custom-objective-e-custom-metric.md)
 * [Grandes volumes de dados](parte-5/grandes-volumes-de-dados.md)
 * [Conclusão](parte-5/conclusao.md)
-
-***
-
-* [Medidas internas do modelo](medidas-internas-do-modelo.md)
