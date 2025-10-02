@@ -31,7 +31,15 @@ Embora úteis, essas métricas têm limitações importantes:
 
 ***
 
-## 11.3 SHAP values no XGBoost
+## 11.3 TreeSHAP e `pred_contribs` no XGBoost
+
+Além das métricas internas, o XGBoost oferece uma explicação local pronta: o parâmetro `pred_contribs`. Cada linha do dataset recebe uma decomposição da predição — exatamente o que vimos na Parte 2 ao percorrer as árvores e ajustar o logit.
+
+* **Bias + soma das contribuições = logit final:** a primeira coluna representa o ponto de partida neutro; as demais colunas indicam quanto cada feature empurrou a predição para cima ou para baixo.
+* **Somatório árvore a árvore:** a contribuição de uma feature é a soma dos ajustes em todas as árvores nas quais ela determinou o caminho daquela observação.
+* **Justiça na divisão do mérito/culpa:** quando várias features decidem um split, o algoritmo reparte o efeito de forma consistente — não é uma média simples dos pesos das folhas.
+
+Por trás desse recurso está o **TreeSHAP**, a implementação eficiente do SHAP para modelos de árvore. Em outras palavras, `pred_contribs` é a materialização dos valores de Shapley calculados especificamente para cada observação.
 
 O SHAP (SHapley Additive exPlanations) traz uma abordagem baseada na **Teoria dos Jogos de Shapley**.
 
@@ -47,7 +55,7 @@ O SHAP (SHapley Additive exPlanations) traz uma abordagem baseada na **Teoria do
 ### TreeSHAP
 
 O cálculo exato dos valores de Shapley seria inviável em árvores grandes (precisaria avaliar todas as combinações de features).\
-O algoritmo **TreeSHAP** permite calcular SHAP values de forma eficiente em modelos baseados em árvores, como o XGBoost.
+O algoritmo **TreeSHAP** permite calcular SHAP values de forma eficiente em modelos baseados em árvores, como o XGBoost — e é justamente ele que abastece a saída `pred_contribs`.
 
 ***
 
@@ -84,6 +92,7 @@ O algoritmo **TreeSHAP** permite calcular SHAP values de forma eficiente em mode
 
 * O XGBoost gera métricas internas de importância: Gain, Cover e Frequency.
 * Essas métricas ajudam, mas têm limitações — podem enganar em variáveis correlacionadas ou muito granulares.
-* O SHAP values trazem uma visão sólida baseada em Teoria dos Jogos, calculada de forma eficiente pelo TreeSHAP.
+* O `pred_contribs` entrega uma decomposição local da predição (bias + ajustes por feature) calculada via TreeSHAP.
+* O SHAP values trazem uma visão sólida baseada na Teoria dos Jogos, calculada de forma eficiente pelo TreeSHAP.
 * Visualizações como waterfall, force e summary plots permitem interpretar predições individuais e globais.
 * Conclusão: combine métricas internas (rápidas) e SHAP (robusto) para interpretar o XGBoost com confiança.

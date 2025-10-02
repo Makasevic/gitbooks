@@ -11,7 +11,7 @@
 ## Parte 2
 
 * [Arquitetura e Filosofia do XGBoost](parte-2/arquitetura-e-filosofia-do-xgboost.md)
-* [Intuição](parte-2/intuicao.md)
+* [Intuição do XGBoost](parte-2/intuicao.md)
 * [Funções Objetivo no XGBoost](parte-2/funcoes-objetivo-no-xgboost.md)
 * [Regularização no XGBoost](parte-2/regularizacao-no-xgboost.md)
 * [Medidas internas do modelo](parte-2/medidas-internas-do-modelo.md)
